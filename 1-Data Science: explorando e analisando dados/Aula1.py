@@ -65,3 +65,84 @@ sns.boxplot(notas['nota'])
 
 # %%
 
+filmes = pd.read_csv("https://raw.githubusercontent.com/alura-cursos/data-science-analise-exploratoria/main/Aula_0/ml-latest-small/movies.csv")
+filmes.columns = ['filmeId', 'titulo', 'generos']
+filmes.head()
+
+# %%
+
+notas.head()
+
+# %%
+
+notas.query('filmeId==1')['nota'].mean()
+
+# %%
+
+notas.query('filmeId==2')['nota'].mean()
+
+# %%
+
+medias_por_filme = notas.groupby('filmeId')['nota'].mean()
+medias_por_filme.head()
+
+# %%
+
+medias_por_filme.plot(kind='hist')
+
+# %%
+
+sns.boxplot(medias_por_filme)
+
+# %%
+
+medias_por_filme.describe()
+# %%
+
+import matplotlib.pyplot as plt
+
+sns.displot(medias_por_filme, kde=True)
+plt.title('Histograma de médias dos filmes')
+
+# %%
+
+tmdb = pd.read_csv("https://raw.githubusercontent.com/alura-cursos/data-science-analise-exploratoria/main/Aula_0/tmdb_5000_movies.csv")
+tmdb.head()
+
+# %%
+
+sns.displot(tmdb['revenue'])
+plt.title('Distribuição da receita dos filmes')
+
+# %%
+
+sns.displot(tmdb['budget'])
+plt.title('Distribuição da orçamento filmes')
+
+# %%
+
+tmdb.info()
+
+# %%
+
+tmdb.describe()
+
+# %%
+
+tmdb.query('revenue < 500')
+
+# %%
+
+com_faturamento = tmdb.query('revenue > 0')
+sns.displot(com_faturamento['revenue'])
+
+# %%
+
+tmdb['original_language'].unique()
+
+# %%
+
+tmdb['original_language'].value_counts()
+
+# %%
+
