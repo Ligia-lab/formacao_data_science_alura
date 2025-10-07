@@ -146,3 +146,177 @@ tmdb['original_language'].value_counts()
 
 # %%
 
+tmdb['original_language'].value_counts().index
+
+# %%
+
+tmdb['original_language'].value_counts().values
+
+# %%
+
+contagem_de_lingua = tmdb['original_language'].value_counts().to_frame().reset_index()
+contagem_de_lingua.columns = ['original_language', 'total']
+contagem_de_lingua.head()
+
+# %%
+
+contagem_de_lingua.plot()
+
+# %%
+
+sns.barplot(data = contagem_de_lingua, x='original_language', y='total')
+
+# %%
+
+sns.countplot(data=tmdb, x='original_language')
+
+# %%
+
+contagem_de_lingua.plot(kind='pie', y='total', labels=contagem_de_lingua['original_language'])
+
+# %%
+
+total_por_lingua = tmdb['original_language'].value_counts()
+total_geral = total_por_lingua.sum()
+total_ingles = total_por_lingua.loc['en']
+total_do_resto = total_geral - total_ingles
+
+#%%
+
+dados = {
+    'lingua' : ['ingles', 'outros'],
+    'total' : [total_ingles, total_do_resto]
+}
+dados = pd.DataFrame(dados)
+dados
+
+# %%
+
+sns.barplot(data=dados, x='lingua', y='total')
+
+# %%
+
+dados.plot(kind='pie', y='total', labels=dados['lingua'])
+
+# %%
+
+tmdb.query("original_language != 'en'")
+
+# %%
+
+total_de_outros_filmes_por_lingua = tmdb.query("original_language != 'en'")['original_language'].value_counts()
+total_de_outros_filmes_por_lingua.head()
+
+# %%
+
+sns.countplot(data=tmdb.query("original_language != 'en'"), 
+              x='original_language')
+
+# %%
+
+sns.countplot(data=tmdb.query("original_language != 'en'"), 
+              x='original_language', 
+              order=total_de_outros_filmes_por_lingua.index)
+
+# %%
+
+sns.countplot(data=tmdb.query("original_language != 'en'"), 
+              x='original_language', 
+              order=total_de_outros_filmes_por_lingua.index,
+              hue='original_language')
+
+# %%
+
+sns.countplot(data=tmdb.query("original_language != 'en'"), 
+              x='original_language', 
+              order=total_de_outros_filmes_por_lingua.index,
+              hue='original_language',
+              palette='mako')
+
+# %%
+
+sns.countplot(data=tmdb.query("original_language != 'en'"), 
+              x='original_language', 
+              order=total_de_outros_filmes_por_lingua.index,
+              hue='original_language',
+              palette='mako',
+              hue_order=total_de_outros_filmes_por_lingua.index)
+plt.title('Distribuição de língua original excluindo inglês')
+plt.show()
+
+# %%
+
+sns.countplot(data=tmdb.query("original_language != 'en'"), 
+              x='original_language', 
+              order=total_de_outros_filmes_por_lingua.index,
+              hue='original_language',
+              palette='mako',
+              hue_order=total_de_outros_filmes_por_lingua.index,
+              stat='percent')
+plt.title('Distribuição de língua original excluindo inglês')
+plt.show()
+
+# %%
+
+plt.figure(figsize=(16,8))
+sns.countplot(data=tmdb.query("original_language != 'en'"), 
+              x='original_language', 
+              order=total_de_outros_filmes_por_lingua.index,
+              hue='original_language',
+              palette='mako',
+              hue_order=total_de_outros_filmes_por_lingua.index,
+              stat='percent')
+plt.title('Distribuição de língua original excluindo inglês')
+plt.show()
+
+# %%
+
+filmes.head(2)
+
+# %%
+
+notas_toy_story = notas.query('filmeId==1')['nota']
+notas_jumanji = notas.query('filmeId==2')['nota']
+
+media_toy_story = notas_toy_story.mean()
+media_jumanji = notas_jumanji.mean()
+
+print(media_toy_story, media_jumanji)
+
+# %%
+
+mediana_toy_story = notas_toy_story.median()
+mediana_jumanji = notas_jumanji.median()
+
+print(mediana_toy_story, mediana_jumanji)
+
+# %%
+
+plt.boxplot([notas_toy_story, notas_jumanji])
+
+# %%
+
+sns.boxplot(data=notas.query('filmeId in [1,2]'), 
+            x='filmeId', 
+            y='nota')
+
+# %%
+
+sns.boxplot(data=notas.query('filmeId in [1,2]'), 
+            x='filmeId', 
+            y='nota',
+            palette='mako')
+
+# %%
+
+notas.groupby('filmeId').count()
+
+# %%
+
+notas['filmeId'].value_counts().tail()
+
+# %%
+
+notas.groupby('filmeId').count().query('nota == 1')
+
+
